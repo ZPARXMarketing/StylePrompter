@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="600" viewBox="0 0 1280 600" fill="none" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="title" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f0abfc"/>
+      <stop offset="0.5" stop-color="#f472b6"/>
+      <stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+    <linearGradient id="logo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d946ef"/>
+      <stop offset="0.5" stop-color="#ec4899"/>
+      <stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+    <linearGradient id="pill" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#d946ef"/>
+      <stop offset="1" stop-color="#7c3aed"/>
+    </linearGradient>
+    <linearGradient id="c1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff2bd6"/>
+      <stop offset="0.55" stop-color="#7b2bff"/>
+      <stop offset="1" stop-color="#15e6ff"/>
+    </linearGradient>
+    <linearGradient id="c2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#bfe3f0"/>
+      <stop offset="0.55" stop-color="#f6d6e6"/>
+      <stop offset="1" stop-color="#fcefcf"/>
+    </linearGradient>
+    <linearGradient id="c3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fe1c80"/>
+      <stop offset="0.55" stop-color="#fc7303"/>
+      <stop offset="1" stop-color="#5b1e9c"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="0.2" cy="0.1" r="0.8">
+      <stop offset="0" stop-color="#d946ef" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#d946ef" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0.9" cy="0.0" r="0.8">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="card1"><rect x="100" y="300" width="340" height="250" rx="22"/></clipPath>
+    <clipPath id="card2"><rect x="470" y="300" width="340" height="250" rx="22"/></clipPath>
+    <clipPath id="card3"><rect x="840" y="300" width="340" height="250" rx="22"/></clipPath>
+  </defs>
+
+  <!-- Backdrop -->
+  <rect width="1280" height="600" fill="#0a0a0f"/>
+  <rect width="1280" height="600" fill="url(#glowA)"/>
+  <rect width="1280" height="600" fill="url(#glowB)"/>
+
+  <!-- Brand row -->
+  <g transform="translate(489 70)">
+    <rect width="44" height="44" rx="12" fill="url(#logo)"/>
+    <text x="22" y="31" text-anchor="middle" font-size="26" font-weight="800" fill="#ffffff">S</text>
+    <text x="60" y="29" font-size="20" font-weight="700" letter-spacing="6" fill="#a1a1aa">STYLEPROMPT</text>
+  </g>
+
+  <!-- Headline -->
+  <text x="640" y="195" text-anchor="middle" font-size="74" font-weight="800" fill="url(#title)">AI art, one tap away.</text>
+  <text x="640" y="240" text-anchor="middle" font-size="24" fill="#c4c4cf">The ultimate AI art inspiration gallery — explore, copy, create.</text>
+  <text x="640" y="272" text-anchor="middle" font-size="16" fill="#7c7c8a">Ready-to-use prompts for Midjourney · DALL·E · Stable Diffusion · and more</text>
+
+  <!-- Card 1 -->
+  <g>
+    <rect x="100" y="300" width="340" height="250" rx="22" fill="#141418" stroke="#ffffff" stroke-opacity="0.10"/>
+    <g clip-path="url(#card1)"><rect x="100" y="300" width="340" height="150" fill="url(#c1)"/></g>
+    <rect x="116" y="316" width="104" height="26" rx="13" fill="#000000" fill-opacity="0.45"/>
+    <text x="168" y="333" text-anchor="middle" font-size="13" fill="#e7e7ee">Sci-Fi</text>
+    <text x="120" y="482" font-size="19" font-weight="700" fill="#ffffff">Cyberpunk Neon</text>
+    <rect x="120" y="500" width="148" height="34" rx="17" fill="url(#pill)"/>
+    <text x="194" y="522" text-anchor="middle" font-size="14" font-weight="600" fill="#ffffff">Copy Prompt</text>
+  </g>
+
+  <!-- Card 2 -->
+  <g>
+    <rect x="470" y="300" width="340" height="250" rx="22" fill="#141418" stroke="#ffffff" stroke-opacity="0.10"/>
+    <g clip-path="url(#card2)"><rect x="470" y="300" width="340" height="150" fill="url(#c2)"/></g>
+    <rect x="486" y="316" width="104" height="26" rx="13" fill="#000000" fill-opacity="0.45"/>
+    <text x="538" y="333" text-anchor="middle" font-size="13" fill="#e7e7ee">Painting</text>
+    <text x="490" y="482" font-size="19" font-weight="700" fill="#ffffff">Soft Watercolor</text>
+    <rect x="490" y="500" width="148" height="34" rx="17" fill="url(#pill)"/>
+    <text x="564" y="522" text-anchor="middle" font-size="14" font-weight="600" fill="#ffffff">Copy Prompt</text>
+  </g>
+
+  <!-- Card 3 -->
+  <g>
+    <rect x="840" y="300" width="340" height="250" rx="22" fill="#141418" stroke="#ffffff" stroke-opacity="0.10"/>
+    <g clip-path="url(#card3)"><rect x="840" y="300" width="340" height="150" fill="url(#c3)"/></g>
+    <rect x="856" y="316" width="104" height="26" rx="13" fill="#000000" fill-opacity="0.45"/>
+    <text x="908" y="333" text-anchor="middle" font-size="13" fill="#e7e7ee">Retro</text>
+    <text x="860" y="482" font-size="19" font-weight="700" fill="#ffffff">Synthwave</text>
+    <rect x="860" y="500" width="148" height="34" rx="17" fill="url(#pill)"/>
+    <text x="934" y="522" text-anchor="middle" font-size="14" font-weight="600" fill="#ffffff">Copy Prompt</text>
+  </g>
+</svg>
