@@ -413,29 +413,67 @@ function paletteFromSeed(seed: string): string[] {
   return [at(0), at(45), at(90)];
 }
 
-const discoveredStyles: ArtStyle[] = Object.entries(galleryImages).map(
-  ([path, url]) => {
-    // e.g. "../gallery/Sci-Fi/Cyberpunk Neon.jpg"
-    const rel = path.replace(/^.*\/gallery\//, "");
-    const segments = rel.split("/");
-    const file = segments.pop() ?? "";
-    const category = segments[0] ?? "Custom";
-    const name = file.replace(/\.[^.]+$/, "");
-    const prompt = (galleryPrompts[path.replace(/\.[^.]+$/, ".txt")] ?? "").trim();
+/** Derive id / title / category from a gallery file path. */
+function entryFromPath(path: string): {
+  id: string;
+  name: string;
+  category: string;
+} {
+  // e.g. "../gallery/Abstract/Kinetic Torn Paper.jpg"
+  const rel = path.replace(/^.*\/gallery\//, "");
+  const segments = rel.split("/");
+  const file = segments.pop() ?? "";
+  const category = segments[0] ?? "Custom";
+  const name = file.replace(/\.[^.]+$/, "");
+  return { id: slugify(`${category}-${name}`), name, category };
+}
 
+interface DiscoveredEntry {
+  id: string;
+  name: string;
+  category: string;
+  image?: string;
+  prompt?: string;
+}
+
+// Merge images and prompts by id, so an entry can have an image, a prompt, or
+// both. A prompt-only entry renders with gradient art until its image arrives;
+// an image-only entry shows the picture with a placeholder prompt.
+const discoveredMap = new Map<string, DiscoveredEntry>();
+
+for (const [path, url] of Object.entries(galleryImages)) {
+  const { id, name, category } = entryFromPath(path);
+  const entry = discoveredMap.get(id) ?? { id, name, category };
+  entry.image = url;
+  discoveredMap.set(id, entry);
+}
+
+for (const [path, raw] of Object.entries(galleryPrompts)) {
+  const { id, name, category } = entryFromPath(path);
+  const entry = discoveredMap.get(id) ?? { id, name, category };
+  entry.prompt = raw.trim();
+  discoveredMap.set(id, entry);
+}
+
+const discoveredStyles: ArtStyle[] = Array.from(discoveredMap.values()).map(
+  (entry) => {
+    const prompt = entry.prompt ?? "";
     return {
-      id: slugify(`${category}-${name}`),
-      name,
-      category,
+      id: entry.id,
+      name: entry.name,
+      category: entry.category,
       description: prompt
         ? prompt.length > 90
           ? `${prompt.slice(0, 90).trimEnd()}…`
           : prompt
-        : `${category} style`,
-      prompt: prompt || name,
-      tags: `${name} ${category}`.toLowerCase().split(/\s+/).filter(Boolean),
-      palette: paletteFromSeed(`${name}-${category}`),
-      image: url,
+        : `${entry.category} style`,
+      prompt: prompt || entry.name,
+      tags: `${entry.name} ${entry.category}`
+        .toLowerCase()
+        .split(/\s+/)
+        .filter(Boolean),
+      palette: paletteFromSeed(`${entry.name}-${entry.category}`),
+      image: entry.image,
     };
   },
 );
