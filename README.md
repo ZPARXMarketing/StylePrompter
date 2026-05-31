@@ -83,15 +83,36 @@ StylePrompter/
 └─ index.html
 ```
 
-## 🎨 Add your own example images
+## 🎨 Add your own pictures & prompts (no code)
 
-Every card tries to load `/styles/<id>.jpg` and falls back to generated gradient art when the file is missing — so the gallery is always complete and upgrades itself as you add images.
+The fastest way to add a new style — **just upload two files, no code edit required.**
+Drop an image and a matching `.txt` prompt into a category folder under
+[`src/gallery/`](./src/gallery/):
 
-1. Generate (or source) an image for a style.
-2. Save it in `public/styles/` named after the style's `id` from [`src/data/styles.ts`](./src/data/styles.ts), e.g. `cyberpunk-neon.jpg`.
-3. That card automatically switches from gradient art to your real image. ✨
+```
+src/gallery/
+  Sci-Fi/
+    Cyberpunk Neon.jpg      ← the picture
+    Cyberpunk Neon.txt      ← the prompt (same name)
+```
 
-**Adding a brand-new style?** Append an entry to the `styleData` array in [`src/data/styles.ts`](./src/data/styles.ts) — give it an `id`, `name`, `category`, `description`, `prompt`, `tags`, and a `palette` (2–4 hex colors that drive its fallback art). That's it.
+- **Folder name** → the category (and a filter chip)
+- **Image file name** → the style title
+- **`.txt` contents** → the prompt (displayed + copyable)
+
+The gallery is rebuilt automatically at deploy time (via Vite's `import.meta.glob`), so
+no code change is needed. You can do it entirely from the GitHub web UI:
+**`src/gallery/` → Add file → Upload files → commit.** See
+[`src/gallery/README.md`](./src/gallery/README.md) for the full walkthrough.
+
+### Other options
+
+- **Attach an image to a built-in style:** save it as `public/styles/<id>.jpg` (the
+  `id`s live in [`src/data/styles.ts`](./src/data/styles.ts)). The card swaps from its
+  gradient art to your image automatically.
+- **Hand-author a curated style:** add an entry to the `styleData` array in
+  [`src/data/styles.ts`](./src/data/styles.ts) with `id`, `name`, `category`,
+  `description`, `prompt`, `tags`, and a `palette`.
 
 ## 🌐 Deploy
 

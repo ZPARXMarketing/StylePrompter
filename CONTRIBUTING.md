@@ -13,7 +13,15 @@ Requires **Node 22+**.
 
 ## Ways to contribute
 
-### Add a new art style
+### Add a style with no code (recommended)
+
+Drop an image plus a matching `.txt` prompt into a category folder under
+[`src/gallery/`](./src/gallery/) — e.g. `src/gallery/Sci-Fi/Cyberpunk Neon.jpg` and
+`src/gallery/Sci-Fi/Cyberpunk Neon.txt`. The folder becomes the category, the file name
+becomes the title, and the `.txt` becomes the prompt. The gallery picks it up
+automatically at build time. See [`src/gallery/README.md`](./src/gallery/README.md).
+
+### Hand-author a curated style (code)
 
 Add one object to the `styleData` array in [`src/data/styles.ts`](./src/data/styles.ts):
 

@@ -366,10 +366,89 @@ const styleData: Omit<ArtStyle, "image">[] = [
   },
 ];
 
-export const artStyles: ArtStyle[] = styleData.map((s) => ({
+export const curatedStyles: ArtStyle[] = styleData.map((s) => ({
   ...s,
   image: img(s.id),
 }));
+
+/* -------------------------------------------------------------------------- *
+ * Auto-discovered styles (zero-code uploads)
+ *
+ * Drop files into `src/gallery/` and they appear automatically — no code edit,
+ * no Claude needed:
+ *
+ *   src/gallery/<Category>/<Title>.jpg     ← the picture
+ *   src/gallery/<Category>/<Title>.txt     ← the prompt (same name)
+ *
+ * This is resolved at BUILD time by Vite's import.meta.glob, so only files
+ * committed to the repo are ever included.
+ * -------------------------------------------------------------------------- */
+
+const galleryImages = import.meta.glob(
+  "../gallery/**/*.{jpg,jpeg,png,webp,avif}",
+  { eager: true, import: "default", query: "?url" },
+) as Record<string, string>;
+
+const galleryPrompts = import.meta.glob("../gallery/**/*.txt", {
+  eager: true,
+  import: "default",
+  query: "?raw",
+}) as Record<string, string>;
+
+function slugify(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+/** Deterministic 3-color palette derived from a seed, for the gradient accent. */
+function paletteFromSeed(seed: string): string[] {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+  }
+  const base = hash % 360;
+  const at = (offset: number) => `hsl(${(base + offset) % 360}, 70%, 58%)`;
+  return [at(0), at(45), at(90)];
+}
+
+const discoveredStyles: ArtStyle[] = Object.entries(galleryImages).map(
+  ([path, url]) => {
+    // e.g. "../gallery/Sci-Fi/Cyberpunk Neon.jpg"
+    const rel = path.replace(/^.*\/gallery\//, "");
+    const segments = rel.split("/");
+    const file = segments.pop() ?? "";
+    const category = segments[0] ?? "Custom";
+    const name = file.replace(/\.[^.]+$/, "");
+    const prompt = (galleryPrompts[path.replace(/\.[^.]+$/, ".txt")] ?? "").trim();
+
+    return {
+      id: slugify(`${category}-${name}`),
+      name,
+      category,
+      description: prompt
+        ? prompt.length > 90
+          ? `${prompt.slice(0, 90).trimEnd()}…`
+          : prompt
+        : `${category} style`,
+      prompt: prompt || name,
+      tags: `${name} ${category}`.toLowerCase().split(/\s+/).filter(Boolean),
+      palette: paletteFromSeed(`${name}-${category}`),
+      image: url,
+    };
+  },
+);
+
+/** Combined catalog: freshly uploaded styles first, then the curated set. */
+const seenIds = new Set<string>();
+export const artStyles: ArtStyle[] = [...discoveredStyles, ...curatedStyles].filter(
+  (style) => {
+    if (seenIds.has(style.id)) return false;
+    seenIds.add(style.id);
+    return true;
+  },
+);
 
 /** Distinct categories, in first-seen order, for the filter chips. */
 export const categories: string[] = Array.from(
